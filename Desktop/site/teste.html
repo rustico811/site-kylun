@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SECRET BYPASS</title>
+    <style>
+        /* Resetando margens e padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Corpo da página */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #1d1f2f, #333a5a); /* Gradiente de fundo */
+            color: white;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Contêiner das partículas */
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Estilo das partículas */
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            background-color: red;
+            opacity: 0.8;
+        }
+
+        /* Estilo das linhas de conexão */
+        .line {
+            position: absolute;
+            background-color: rgba(255, 87, 34, 0.5);
+        }
+
+        /* Título e subtítulo */
+        .container {
+            text-align: center;
+            z-index: 1;
+            position: relative;
+            color: white;
+        }
+
+        .title {
+            font-size: 3.5em;
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.5);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.5em;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            margin-bottom: 30px;
+        }
+
+        .button {
+            background-color: #ff5722;
+            color: white;
+            padding: 15px 30px;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 5px;
+            box-shadow: 0 0 15px rgba(255, 87, 34, 0.7);
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .button:hover {
+            background-color: #ff7043;
+            box-shadow: 0 0 25px rgba(255, 87, 34, 1);
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Título e Botão -->
+    <div class="container">
+        <h1 class="title">SECRET BYPASS</h1>
+        <p class="subtitle"></p>
+        <a href="https://www.roblox.com/share?code=44c0c3773defa0479506244795a577de&type=Server" class="button" target="_blank">Get Key</a>
+    </div>
+
+    <!-- Contêiner das Partículas -->
+    <div id="particles"></div>
+
+    <script>
+        const particlesContainer = document.getElementById('particles');
+        const particles = [];
+        const maxParticles = 50; // Número reduzido de partículas
+        const mouse = { x: -100, y: -100 };
+
+        // Atualiza a posição do mouse
+        document.addEventListener('mousemove', (e) => {
+            mouse.x = e.clientX;
+            mouse.y = e.clientY;
+        });
+
+        // Função para criar novas partículas
+        function createParticle() {
+            if (particles.length < maxParticles) {
+                const particle = {
+                    x: Math.random() * window.innerWidth,
+                    y: Math.random() * window.innerHeight,
+                    size: Math.random() * 3 + 2, // Tamanho aleatório das partículas
+                    speedX: (Math.random() - 0.5) * 1,
+                    speedY: (Math.random() - 0.5) * 1,
+                };
+                particles.push(particle);
+            }
+        }
+
+        // Atualiza a posição das partículas
+        function updateParticles() {
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+
+                p.x += p.speedX;
+                p.y += p.speedY;
+
+                if (p.x > window.innerWidth || p.x < 0) p.speedX *= -1;
+                if (p.y > window.innerHeight || p.y < 0) p.speedY *= -1;
+            }
+        }
+
+        // Desenha as partículas e as linhas de conexão
+        function drawParticles() {
+            particlesContainer.innerHTML = ''; // Limpa a tela para desenhar novamente
+
+            for (let i = 0; i < particles.length; i++) {
+                const p = particles[i];
+
+                // Cria o elemento da partícula
+                const particleElement = document.createElement('div');
+                particleElement.classList.add('particle');
+                particleElement.style.width = `${p.size}px`;
+                particleElement.style.height = `${p.size}px`;
+                particleElement.style.left = `${p.x}px`;
+                particleElement.style.top = `${p.y}px`;
+                particlesContainer.appendChild(particleElement);
+
+                // Conexão com o mouse
+                const distX = mouse.x - p.x;
+                const distY = mouse.y - p.y;
+                const dist = Math.sqrt(distX * distX + distY * distY);
+
+                if (dist < 100) { // Se a partícula estiver perto o suficiente do mouse
+                    const lineElement = document.createElement('div');
+                    const angle = Math.atan2(distY, distX); // Ângulo da linha
+
+                    // Cria a linha de conexão
+                    lineElement.classList.add('line');
+                    lineElement.style.width = `${dist}px`;
+                    lineElement.style.height = '1px';
+                    lineElement.style.left = `${p.x}px`;
+                    lineElement.style.top = `${p.y}px`;
+                    lineElement.style.transformOrigin = '0 0';
+                    lineElement.style.transform = `rotate(${angle}rad)`;
+                    particlesContainer.appendChild(lineElement);
+                }
+            }
+        }
+
+        // Função de animação
+        function animate() {
+            createParticle();
+            updateParticles();
+            drawParticles();
+            requestAnimationFrame(animate); // Loop da animação
+        }
+
+        // Inicia a animação
+        animate();
+    </script>
+</body>
+</html>
